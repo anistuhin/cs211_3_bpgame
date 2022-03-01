@@ -47,25 +47,6 @@ void bp_display_STD(BPGame *b);
 
 
 
-
-// int main() {
-//    BPGame *board = bp_create(5,5);
-//    bp_display(board);
-//    char line[10];
-//    fgets(line, 5, stdin);
-//    bp_pop(board, 0, 2);
-//    bp_display(board);
-//    printf("%i\n",bp_score(board));
-//    bp_float_one_step(board);
-//    // bp_display(next);
-//    // char grid[MAX_ROWS][MAX_COLS] = {Red, Blue, Green, Green, Red, Blue, Green, Green, Red, Blue, Green, Green,
-//    //                    Red, Blue, Green, Green, Red, Blue, Green, Green, Red, Blue, Green, Green,
-//    //                    Red, Blue, Green, Green, Red, Blue, Green, Green, Red, Blue, Green, Green,
-//    //                    Red, Blue, Green, Green, Red, Blue, Green, Green, Red, Blue, Green, Green};
-//    // BPGame *board1 = bp_create_from_mtx(grid, 2, 10);
-//    // bp_display(board);
-// }
-
 void bp_display_STD(BPGame *b) {
     for (int r = 0; r < b->nrows; r++) {
         for (int c = 0; c < b->ncols; c++) {
@@ -91,6 +72,7 @@ extern BPGame * bp_create(int nrows, int ncols) {
 }
 
 extern BPGame * bp_create_from_mtx(char mtx[][MAX_COLS], int nrows, int ncols) {
+  printf("HELLO");
    if (nrows < 1 || ncols < 1 || nrows > MAX_ROWS || ncols > MAX_COLS) {
       printf("invalid dimensions\n");
       return NULL;
