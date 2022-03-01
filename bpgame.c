@@ -35,6 +35,8 @@ extern int bp_score(BPGame* b);
 extern void bp_destroy(BPGame* b);
 extern int bp_get_balloon(BPGame* b, int r, int c);
 extern int bp_can_pop(BPGame* b);
+char getChar(BPGame* b, int r, int c);
+int NearBy(BPGame* temp, char Color, int r, int c);
 
 /*** IMPLEMENTATION OF bp_XXXX FUNCTIONS HERE  ****/
 
