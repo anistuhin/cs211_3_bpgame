@@ -1,6 +1,10 @@
 
-
-// file:  bpgame.c
+/*
+Author: Erick R. Gonzalez, egonz31, Spring 2022.
+  This progrom holds the spine of the balloon
+  popping game. All the functions in here directly
+  affect the struct pointer in order to do the game.
+*/
 #include "stdio.h"
 #include "stdlib.h"
 #include "bpgame.h"
