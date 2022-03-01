@@ -45,12 +45,14 @@ void bp_display_STD(BPGame *b);
 /*** IMPLEMENTATION OF bp_XXXX FUNCTIONS HERE  ****/
 
 
+/*
 int main () {
    BPGame* b = bp_create(5,5);
    bp_display(b);
    int popped = bp_pop(b, 0, 2);
    bp_display(b);
 }
+*/
 
 void bp_display_STD(BPGame *b) {
     for (int r = 0; r < b->nrows; r++) {
