@@ -37,7 +37,7 @@ extern int bp_get_balloon(BPGame* b, int r, int c);
 extern int bp_can_pop(BPGame* b);
 char getChar(BPGame* b, int r, int c);
 int NearBy(BPGame* temp, char Color, int r, int c);
-
+void bp_display_STD(BPGame *b);
 /*** IMPLEMENTATION OF bp_XXXX FUNCTIONS HERE  ****/
 
 
@@ -61,6 +61,15 @@ int NearBy(BPGame* temp, char Color, int r, int c);
 //    // BPGame *board1 = bp_create_from_mtx(grid, 2, 10);
 //    // bp_display(board);
 // }
+
+void bp_display_STD(BPGame *b) {
+    for each row {
+        for each column {
+            printf("%c", balloon);
+        }
+        printf("\n");
+    }
+}
 
 extern BPGame * bp_create(int nrows, int ncols) {
    if (nrows < 1 || ncols < 1 || nrows > MAX_ROWS || ncols > MAX_COLS) {
