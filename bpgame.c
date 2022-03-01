@@ -45,14 +45,16 @@ void bp_display_STD(BPGame *b);
 /*** IMPLEMENTATION OF bp_XXXX FUNCTIONS HERE  ****/
 
 
-/*
 int main () {
+   char matrix[2][5] = {Red, Blue, Blue, Blue, Yellow, 
+                     Green, Green, Red, Red, Yellow};
    BPGame* b = bp_create(5,5);
    bp_display(b);
    int popped = bp_pop(b, 0, 2);
+   bp_display(b->next);
+   bp_undo(b);
    bp_display(b);
 }
-*/
 
 void bp_display_STD(BPGame *b) {
     for (int r = 0; r < b->nrows; r++) {
@@ -298,14 +300,15 @@ void bp_destroy(BPGame* b) {
 }
 
 int bp_undo(BPGame* b) {
-   if (b->moves == 0) {
+   if (b->next == NULL) {
       return 0;
    } else if (b->next->next != NULL) {
-      return bp_undo(b->next);
-   }else if (b->next->next == NULL) {
+      bp_undo(b->next);
+   } else if (b->next->next == NULL) {
       bp_destroy(b->next);
       b->next = NULL;
    }
+   return 1;
 }
 
 int bp_get_balloon(BPGame* b, int r, int c) {
