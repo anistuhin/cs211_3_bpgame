@@ -45,6 +45,12 @@ void bp_display_STD(BPGame *b);
 /*** IMPLEMENTATION OF bp_XXXX FUNCTIONS HERE  ****/
 
 
+int main () {
+   BPGame* b = bp_create(5,5);
+   bp_display(b);
+   int popped = bp_pop(b, 0, 2);
+   bp_display(b);
+}
 
 void bp_display_STD(BPGame *b) {
     for (int r = 0; r < b->nrows; r++) {
@@ -166,7 +172,7 @@ int doPop(BPGame* temp, char Color, int r, int c) {
    else if (temp->currBoard[r][c] != Color)
       return 0;
    int popped = 1;
-   temp->currBoard[r][c] = ' ';
+   temp->currBoard[r][c] = None;
    popped += doPop(temp, Color, r + 1, c);
    popped += doPop(temp, Color, r - 1, c);
    popped += doPop(temp, Color, r, c + 1);
@@ -189,11 +195,11 @@ int bp_is_compact(BPGame* b) {
    if(b->next == NULL) {
       for (int i = 0; i < b->ncols; i++) {
          for (int j = 1; j < b->nrows; j++) {
-            if (b->currBoard[j-1][i] == ' ' && b->currBoard[j][i] != ' ') {
-               return 1;
+            if (b->currBoard[j-1][i] == None && b->currBoard[j][i] != None) {
+               return 0;
             }
          }
-      } return 0;
+      } return 1;
    }else 
       return bp_is_compact(b->next);
 }
@@ -260,9 +266,9 @@ void bp_float_one_step(BPGame* b) {
          for (int r = b->nrows - 1; r > 0; r--) {
             int count = 0;
             for (int c =  0; c < b->ncols; c++) {
-               if (b->currBoard[r-1][c] == ' ' && b->currBoard[r][c] != ' ') {
+               if (b->currBoard[r-1][c] == None && b->currBoard[r][c] != None) {
                   b->currBoard[r-1][c] = b->currBoard[r][c];
-                  b->currBoard[r][c] = ' ';
+                  b->currBoard[r][c] = None;
                   count++;
                }
             }if (count > 0)
@@ -312,9 +318,12 @@ int bp_get_balloon(BPGame* b, int r, int c) {
 }
 
 int bp_can_pop(BPGame* b) {
+   if (b->next != NULL) {
+      bp_can_pop(b->next);
+   }
    for (int i = 0; i < b->nrows; i++) {
       for (int j = 0; j < b->ncols; j++) {
-         if (b->currBoard[i][j] != None || b->currBoard[i][j] != ' ') {
+         if (b->currBoard[i][j] != None || b->currBoard[i][j] != None) {
             char Color = getChar(b, i, j);
             if (NearBy(b, Color, i, j))
                return 1;
@@ -337,17 +346,15 @@ char getChar(BPGame* b, int r, int c) {
 }
 
 int NearBy(BPGame* temp, char Color, int r, int c) {
-   if (r < 0 || c < 0 || r >= temp->nrows || c >= temp->ncols)
+   if (r-1 < 0 || c-1 < 0 || r+1 >= temp->nrows || c+1 >= temp->ncols)
       return 0;
-   else if (temp->currBoard[r][c] != Color)
-      return 0;
-
-   int canPop = 1;
-   canPop += doPop(temp, Color, r + 1, c);
-   canPop += doPop(temp, Color, r - 1, c);
-   canPop += doPop(temp, Color, r, c + 1);
-   canPop += doPop(temp, Color, r, c - 1);
-   if (canPop > 1)
+   if (temp->currBoard[r+1][c] == Color)
+      return 1;
+   if (temp->currBoard[r-1][c] == Color) 
+      return 1;
+   if (temp->currBoard[r][c+1] == Color)
+      return 1;
+   if (temp->currBoard[r][c-1] == Color) 
       return 1;
    return 0;
 }
