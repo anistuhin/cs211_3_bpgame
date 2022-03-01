@@ -200,6 +200,8 @@ extern int bp_is_compact(BPGame* b) {
 }
 
 extern void bp_display(BPGame * b) {
+  printf("GOODBYE");
+  return;
    if (b->next != NULL) {
       bp_display(b->next);
    }else {
