@@ -46,7 +46,6 @@ void bp_display_STD(BPGame *b);
 
 
 
-
 void bp_display_STD(BPGame *b) {
     for (int r = 0; r < b->nrows; r++) {
         for (int c = 0; c < b->ncols; c++) {
@@ -73,8 +72,7 @@ BPGame * bp_create(int nrows, int ncols) {
 }
 
 BPGame * bp_create_from_mtx(char mtx[][MAX_COLS], int nrows, int ncols) {
-  printf("HELLO");
-  return NULL;
+  
    if (nrows < 1 || ncols < 1 || nrows > MAX_ROWS || ncols > MAX_COLS) {
       printf("invalid dimensions\n");
       return NULL;
@@ -201,8 +199,6 @@ int bp_is_compact(BPGame* b) {
 }
 
 void bp_display(BPGame * b) {
-  printf("GOODBYE");
-  return;
    if (b->next != NULL) {
       bp_display(b->next);
    }else {
