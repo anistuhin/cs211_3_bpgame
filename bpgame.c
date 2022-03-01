@@ -59,6 +59,7 @@ void bp_display_STD(BPGame *b) {
 BPGame * bp_create(int nrows, int ncols) {
    if (nrows < 1 || ncols < 1 || nrows > MAX_ROWS || ncols > MAX_COLS) {
       printf("Invalid dimensions\n");
+     return NULL;
    }
    char **board = malloc(nrows * sizeof(char *));
    for (int i = 0; i < nrows; i++) {
