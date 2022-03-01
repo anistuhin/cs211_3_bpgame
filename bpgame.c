@@ -73,6 +73,7 @@ extern BPGame * bp_create(int nrows, int ncols) {
 
 extern BPGame * bp_create_from_mtx(char mtx[][MAX_COLS], int nrows, int ncols) {
   printf("HELLO");
+  return NULL;
    if (nrows < 1 || ncols < 1 || nrows > MAX_ROWS || ncols > MAX_COLS) {
       printf("invalid dimensions\n");
       return NULL;
