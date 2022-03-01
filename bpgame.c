@@ -63,9 +63,9 @@ void bp_display_STD(BPGame *b);
 // }
 
 void bp_display_STD(BPGame *b) {
-    for each row {
-        for each column {
-            printf("%c", balloon);
+    for (int r = 0; r < b->nrows; r++) {
+        for (int c = 0; c < b->ncols; c++) {
+            printf("%c", b->currBoard[r][c]);
         }
         printf("\n");
     }
@@ -280,7 +280,7 @@ extern void bp_float_one_step(BPGame* b) {
                   count++;
                }
             }if (count > 0)
-               bp_display(b);
+               return;
          }
       }
    }
