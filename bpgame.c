@@ -33,6 +33,8 @@ void bottomDisplay(BPGame* b);
 extern void bp_float_one_step(BPGame* b);
 extern int bp_score(BPGame* b);
 extern void bp_destroy(BPGame* b);
+extern int bp_get_balloon(BPGame* b, int r, int c);
+extern int bp_can_pop(BPGame* b);
 
 /*** IMPLEMENTATION OF bp_XXXX FUNCTIONS HERE  ****/
 
@@ -94,9 +96,10 @@ extern BPGame * bp_create_from_mtx(char mtx[][MAX_COLS], int nrows, int ncols) {
             c = 0;
             r++;
          }
-         if (validMatrix(mtx[i][j]))
+         if (validMatrix(mtx[i][j])) {
+            printf("Invalid character\n");
             return NULL;
-         currboard[r][c++] = mtx[i][j];
+         }currboard[r][c++] = mtx[i][j];
       }if (cut)
          break;
    }
@@ -161,7 +164,7 @@ extern int bp_pop(BPGame* b, int r, int c) {
 }
 
 int doPop(BPGame* temp, char Color, int r, int c) {
-   if (r < 0 || c < 0 || r == temp->nrows || c == temp->ncols)
+   if (r < 0 || c < 0 || r >= temp->nrows || c >= temp->ncols)
       return 0;
    else if (temp->currBoard[r][c] != Color)
       return 0;
@@ -281,7 +284,6 @@ extern int bp_score(BPGame * b) {
 
 extern void bp_destroy(BPGame* b) {
    while (b != NULL) {
-      
       for (int i = 0; i < b->nrows; i++) {
          free(b->currBoard[i]);
       }free(b->currBoard);
@@ -299,4 +301,56 @@ extern int bp_undo(BPGame* b) {
       bp_destroy(b->next);
       b->next = NULL;
    }
+}
+
+extern int bp_get_balloon(BPGame* b, int r, int c) {
+   if (r < 0 || c < 0 || r >= b->nrows || c >= b->ncols) {
+      return -1;
+   } else if (b->next != NULL) {
+      bp_get_balloon(b, r, c);
+   }else {
+      printf("%c", b->currBoard[r][c]);
+      return 0;
+   }
+}
+
+extern int bp_can_pop(BPGame* b) {
+   for (int i = 0; i < b->nrows; i++) {
+      for (int j = 0; j < b->ncols; j++) {
+         if (b->currBoard[i][j] != None || b->currBoard[i][j] != ' ') {
+            char Color = getChar(b, i, j);
+            if (NearBy(b, Color, i, j))
+               return 1;
+         }
+      }
+   }
+   return 0;
+}
+
+char getChar(BPGame* b, int r, int c) {
+   if (b->currBoard[r][c] == Red) {
+      return Red;
+   }if (b->currBoard[r][c] == Blue) {
+      return Blue;
+   }if (b->currBoard[r][c] == Green) {
+      return Green;
+   }if (b->currBoard[r][c] == Yellow) {
+      return Yellow;
+   }
+}
+
+int NearBy(BPGame* temp, char Color, int r, int c) {
+   if (r < 0 || c < 0 || r >= temp->nrows || c >= temp->ncols)
+      return 0;
+   else if (temp->currBoard[r][c] != Color)
+      return 0;
+
+   int canPop = 1;
+   canPop += doPop(temp, Color, r + 1, c);
+   canPop += doPop(temp, Color, r - 1, c);
+   canPop += doPop(temp, Color, r, c + 1);
+   canPop += doPop(temp, Color, r, c - 1);
+   if (canPop > 1)
+      return 1;
+   return 0;
 }
