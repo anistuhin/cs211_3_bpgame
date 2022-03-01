@@ -23,22 +23,22 @@ struct bpgame {
    BPGame* next;
 };
 
-extern BPGame* bp_create(int nrows, int ncols);
-extern BPGame * bp_create_from_mtx(char mtx[][MAX_COLS], int nrows, int ncols);
+BPGame* bp_create(int nrows, int ncols);
+BPGame * bp_create_from_mtx(char mtx[][MAX_COLS], int nrows, int ncols);
 void defaultValues(BPGame* temp, int nrows, int ncols);
 int validMatrix(char letter);
 void popBoard(char** currBoard, int nrows, int ncols);
-extern int bp_pop(BPGame* b, int r, int c);
+int bp_pop(BPGame* b, int r, int c);
 int doPop(BPGame* temp, char Color, int r, int c);
 void makeCopy(BPGame* old, BPGame* new);
-extern int bp_is_compact(BPGame* b);
-extern void bp_display(BPGame* b);
+int bp_is_compact(BPGame* b);
+void bp_display(BPGame* b);
 void bottomDisplay(BPGame* b);
-extern void bp_float_one_step(BPGame* b);
-extern int bp_score(BPGame* b);
-extern void bp_destroy(BPGame* b);
-extern int bp_get_balloon(BPGame* b, int r, int c);
-extern int bp_can_pop(BPGame* b);
+void bp_float_one_step(BPGame* b);
+int bp_score(BPGame* b);
+void bp_destroy(BPGame* b);
+int bp_get_balloon(BPGame* b, int r, int c);
+int bp_can_pop(BPGame* b);
 char getChar(BPGame* b, int r, int c);
 int NearBy(BPGame* temp, char Color, int r, int c);
 void bp_display_STD(BPGame *b);
@@ -56,7 +56,7 @@ void bp_display_STD(BPGame *b) {
     }
 }
 
-extern BPGame * bp_create(int nrows, int ncols) {
+BPGame * bp_create(int nrows, int ncols) {
    if (nrows < 1 || ncols < 1 || nrows > MAX_ROWS || ncols > MAX_COLS) {
       printf("Invalid dimensions\n");
    }
@@ -71,7 +71,7 @@ extern BPGame * bp_create(int nrows, int ncols) {
    return temp;
 }
 
-extern BPGame * bp_create_from_mtx(char mtx[][MAX_COLS], int nrows, int ncols) {
+BPGame * bp_create_from_mtx(char mtx[][MAX_COLS], int nrows, int ncols) {
   printf("HELLO");
   return NULL;
    if (nrows < 1 || ncols < 1 || nrows > MAX_ROWS || ncols > MAX_COLS) {
@@ -143,7 +143,7 @@ void popBoard(char** currBoard, int nrows, int ncols) {
    }
 }
 
-extern int bp_pop(BPGame* b, int r, int c) {
+int bp_pop(BPGame* b, int r, int c) {
    if (b->next != NULL) {
       bp_pop(b->next, r, c);
    }else {
@@ -186,7 +186,7 @@ void makeCopy(BPGame* old, BPGame* new) {
    new->score = old->score;
 }
 
-extern int bp_is_compact(BPGame* b) {
+int bp_is_compact(BPGame* b) {
    if(b->next == NULL) {
       for (int i = 0; i < b->ncols; i++) {
          for (int j = 1; j < b->nrows; j++) {
@@ -199,7 +199,7 @@ extern int bp_is_compact(BPGame* b) {
       return bp_is_compact(b->next);
 }
 
-extern void bp_display(BPGame * b) {
+void bp_display(BPGame * b) {
   printf("GOODBYE");
   return;
    if (b->next != NULL) {
@@ -255,7 +255,7 @@ void bottomDisplay(BPGame* b) {
    }printf("\n");
 }
 
-extern void bp_float_one_step(BPGame* b) {
+void bp_float_one_step(BPGame* b) {
    if (b->next != NULL) {
       bp_float_one_step(b->next);
    }else {
@@ -275,14 +275,14 @@ extern void bp_float_one_step(BPGame* b) {
    }
 }
 
-extern int bp_score(BPGame * b) {
+int bp_score(BPGame * b) {
    if (b->next != NULL) {
       bp_score(b->next);
    }else 
       return b->score;
 }
 
-extern void bp_destroy(BPGame* b) {
+void bp_destroy(BPGame* b) {
    while (b != NULL) {
       for (int i = 0; i < b->nrows; i++) {
          free(b->currBoard[i]);
@@ -292,7 +292,7 @@ extern void bp_destroy(BPGame* b) {
    }
 }
 
-extern int bp_undo(BPGame* b) {
+int bp_undo(BPGame* b) {
    if (b->moves == 0) {
       return 0;
    } else if (b->next->next != NULL) {
@@ -303,7 +303,7 @@ extern int bp_undo(BPGame* b) {
    }
 }
 
-extern int bp_get_balloon(BPGame* b, int r, int c) {
+int bp_get_balloon(BPGame* b, int r, int c) {
    if (r < 0 || c < 0 || r >= b->nrows || c >= b->ncols) {
       return -1;
    } else if (b->next != NULL) {
@@ -314,7 +314,7 @@ extern int bp_get_balloon(BPGame* b, int r, int c) {
    }
 }
 
-extern int bp_can_pop(BPGame* b) {
+int bp_can_pop(BPGame* b) {
    for (int i = 0; i < b->nrows; i++) {
       for (int j = 0; j < b->ncols; j++) {
          if (b->currBoard[i][j] != None || b->currBoard[i][j] != ' ') {
